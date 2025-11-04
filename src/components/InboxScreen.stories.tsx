@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { waitFor, waitForElementToBeRemoved } from "storybook/internal/test";
 import { http, HttpResponse } from "msw";
 import { MockedState } from "./TaskList.stories";
 import { Provider } from "react-redux";
@@ -23,6 +24,17 @@ export const Default: Story = {
           return HttpResponse.json(MockedState.tasks);
         }),
       ],
+    },
+    play: async ({ canvas, userEvent }: { canvas: any; userEvent: any }) => {
+      // Waits for the component to transition from the loading state
+      await waitForElementToBeRemoved(await canvas.findByTestId("loading"));
+      // Waits for the component to be updated based on the store
+      await waitFor(async () => {
+        // Simulates pinning the first task
+        await userEvent.click(canvas.getByLabelText("pin-task-1"));
+        // Simulates pinning the third task
+        await userEvent.click(canvas.getByLabelText("pin-task-3"));
+      });
     },
   },
 };
