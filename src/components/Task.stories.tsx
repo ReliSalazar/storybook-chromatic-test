@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "storybook/test";
 import Task from "./Task";
 
-export const ActionData = {
+export const ActionsData = {
   onArchiveTask: fn(),
   onPinTask: fn(),
 };
@@ -14,7 +14,7 @@ const meta = {
   //👇 Our exports that end in "Data" are not stories.
   excludeStories: /.*Data$/,
   args: {
-    ...ActionData,
+    ...ActionsData,
   },
 } satisfies Meta<typeof Task>;
 
